@@ -61,12 +61,14 @@ export default {
           .once('value');
 
         const campaign = campaignResult.val();
+        if (!campaign) return null;
         campaign.views = userChildrenQuantity[index];
 
         return campaign;
       });
 
-      const codes = await Promise.all(codesPromises);
+      let codes = await Promise.all(codesPromises);
+      codes = codes.filter((code) => code !== null);
 
       this.codes = codes;
       return [];
