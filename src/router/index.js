@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Collaborator from '../views/Collaborator.vue';
 import Campaign from '../views/Campaign.vue';
+import Login from '../views/Login.vue';
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,9 @@ const routes = [
     component: Collaborator,
   },
   {
-    path: '/campaign/:url',
-    name: 'Campaign',
-    component: Campaign,
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
   {
     path: '/campaign/:uuid/:campaign/:url',

@@ -4,7 +4,10 @@
   <vue-qr :text="campaignURL" :size="size" backgroundColor="#fafafa" :callback="download" />
   <label> {{ name }} </label>
   <a class="shelf-qrcode__download" :download="campaign + '.png'" :href="imageUrl">Baixar</a>
-  <a class="shelf-qrcode__teste" target="_blank" :href="campaignURL || ''">link para teste</a>
+  <a
+    v-show="!isCollaborator"
+    class="shelf-qrcode__teste"
+    target="_blank" :href="campaignURL || ''">link para teste</a>
 </div>
 </template>
 
@@ -17,6 +20,7 @@ export default {
     'campaign',
     'views',
     'uuid',
+    'isCollaborator',
   ],
   data() {
     return {

@@ -35,6 +35,7 @@
       <div class="modal__tab1 flex row center wrap" v-show="tab === 5">
         <span @click="close">x</span>
         <h2> Colaborador: <b> {{ collaboratorName }} </b> criado! </h2>
+        <label> Aguarde um instante, a página será recarregada... </label>
       </div>
     </div>
   </div>
@@ -44,6 +45,9 @@
 <script>
 import Campaign from '../model/Campaign';
 import Collaborator from '../model/Collaborator';
+import fb from '@/database/Firebase';
+
+const auth = fb.auth();
 
 export default {
   data: () => ({
@@ -127,8 +131,28 @@ export default {
         });
 
         collaborator.create();
+        const { kseemail, ksepassword } = localStorage;
+        const hasAdmin = kseemail.indexOf('@admin') > 1;
+        if (hasAdmin) {
+          setTimeout(() => {
+            auth.signOut();
+            this.login(kseemail, ksepassword);
+          }, 3000);
+        }
         this.tab = 5;
       }
+    },
+    async login(email, password) {
+      const login = auth.signInWithEmailAndPassword(email, password);
+      login
+        .then(() => {
+          window.location.href = '/';
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error(errorCode, errorMessage);
+        });
     },
   },
 };

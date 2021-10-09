@@ -7,6 +7,7 @@
     :name="code.nome"
     :campaign="code.url"
     :views="code.views || 0"
+    :isCollaborator="isCollaborator"
   />
 </div>
 </template>
@@ -16,6 +17,7 @@ import QRCode from '@/components/QRCode.vue';
 import fb from '@/database/Firebase';
 
 export default {
+  props: ['isCollaborator'],
   data: () => ({
     codes: [],
     database: null,
@@ -65,8 +67,6 @@ export default {
       });
 
       const codes = await Promise.all(codesPromises);
-
-      console.log('codes', codes);
 
       this.codes = codes;
       return [];

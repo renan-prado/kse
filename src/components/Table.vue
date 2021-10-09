@@ -73,8 +73,6 @@ export default {
               nome, uuid, collaborator, campaigns,
             } = user;
 
-            console.log(user);
-
             const length = campaigns ? Object.values(campaigns).length : 0;
             const campaignsIds = campaigns ? Object.keys(campaigns) : [];
 

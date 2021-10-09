@@ -1,14 +1,14 @@
 <template>
-  <section>
+  <section v-show="load">
     <ModalCampanhas :open="open" @toggle="toggle" />
     <header class="flex col center">
       <div>
         <b>Colaborador:</b> {{ collaboratorName }}
-        <button class="delete" @click="deletes">x</button>
+        <button class="delete" v-show="!isCollaborator" @click="deletes">x</button>
       </div>
-      <button @click="toggle"> Ver Campanhas </button>
+      <button @click="toggle" v-show="!isCollaborator"> Ver Campanhas </button>
     </header>
-    <Shelf />
+    <Shelf :isCollaborator="isCollaborator" />
   </section>
 </template>
 
@@ -18,12 +18,32 @@ import Shelf from '@/components/Shelf.vue';
 import ModalCampanhas from '@/components/ModalCampanhas.vue';
 import fb from '@/database/Firebase';
 
+const auth = fb.auth();
+
 export default {
   data: () => ({
     collaboratorName: '',
     open: false,
+    load: false,
+    isCollaborator: true,
   }),
   created() {
+    const database = fb.database();
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = '/login';
+      } else {
+        const result = await database
+          .ref(`/users/${user.uid}/collaborator`)
+          .once('value');
+
+        if (!result.val()) {
+          this.isCollaborator = false;
+        }
+
+        this.load = true;
+      }
+    });
     this.getCollaborator();
   },
 

@@ -16,7 +16,7 @@ class User {
   create() {
     this.auth.createUserWithEmailAndPassword(this.email, this.password)
       .then((response) => this.fetchUser(response))
-      .catch((err) => console.log(err));
+      .catch((err) => console.warn(err));
   }
 
   fetchUser({ user }) {

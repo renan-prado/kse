@@ -1,96 +1,43 @@
 <template>
-  <section class="main flex col center">
-    <Table :collaborators="collaborators" />
+  <section class="main flex col center" v-show="load">
+    <Table />
   </section>
 </template>
 
 <script>
-import Collaborator from '@/model/Collaborator';
 import Table from '@/components/Table.vue';
+import fb from '@/database/Firebase';
+
+const auth = fb.auth();
+const database = fb.database();
 
 export default {
-  data: () => ({
-    collaborators: [
-      {
-        id: 1,
-        name: 'Joao',
-        companies: [0, 0, 0, 0],
-        views: 20,
-      },
-      {
-        id: 2,
-        name: 'Guilherme',
-        companies: [0, 0, 0],
-        views: 34,
-      },
-      {
-        id: 3,
-        name: 'Maria',
-        companies: [0, 0, 0, 0, 0],
-        views: 12,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-      {
-        id: 4,
-        name: 'Leticia',
-        companies: [0, 0, 0, 0, 0, 0],
-        views: 44,
-      },
-    ],
-  }),
   name: 'Home',
+  data: () => ({
+    load: false,
+  }),
   components: {
     Table,
   },
+  async created() {
+    auth.onAuthStateChanged(async (user) => {
+      console.log('user', user);
+      const hasAdmin = localStorage.kseemail && localStorage.kseemail.indexOf('@admin') > 1;
 
-  mounted() {
-    const collaborator = new Collaborator({
-      name: 'Maria',
-      email: 'maria@maria.com',
-      password: '12345678',
+      if (!user && !hasAdmin) {
+        window.location.href = '/login';
+      } else {
+        const result = await database
+          .ref(`/users/${user.uid}/collaborator`)
+          .once('value');
+
+        if (result.val() && !hasAdmin) {
+          window.location.href = `/collaborator/${user.uid}`;
+        } else {
+          this.load = true;
+        }
+      }
     });
-    collaborator.create();
   },
 };
 </script>
