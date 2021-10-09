@@ -24,7 +24,7 @@ export default {
 <style lang="stylus">
 
 .v-application--wrap
-  background-color #FAFAFA
+  background-color #f8f8fb
 
 .flex
   display flex

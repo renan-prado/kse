@@ -4,7 +4,7 @@
   <vue-qr :text="campaignURL" :size="size" backgroundColor="#fafafa" :callback="download" />
   <label> {{ name }} </label>
   <a class="shelf-qrcode__download" :download="campaign + '.png'" :href="imageUrl">Baixar</a>
-  <a :href="campaignURL || ''">teste</a>
+  <a class="shelf-qrcode__teste" target="_blank" :href="campaignURL || ''">link para teste</a>
 </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
     'name',
     'campaign',
     'views',
+    'uuid',
   ],
   data() {
     return {
@@ -38,7 +39,7 @@ export default {
       const campaing = this.campaign
         .replaceAll('/', '--b--')
         .replaceAll('.', '--p--');
-      return `${window.location.origin}/campaign/${campaing}`;
+      return `${window.location.origin}/campaign/${this.$route.params.id}/${this.uuid}/${campaing}`;
     },
   },
   components: {
@@ -68,4 +69,6 @@ export default {
     text-decoration none
     border-radius 8px
 
+.shelf-qrcode__teste
+  margin-top 10px
 </style>

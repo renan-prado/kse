@@ -1,7 +1,7 @@
 <template>
   <header class="header flex row center">
     <router-link to="/">
-      <img src="https://www.gam.com.br/wp-content/uploads/2017/10/default-logo.png" alt="Default Logo">
+      <img src="../assets/logo.jpeg" alt="Default Logo">
     </router-link>
   </header>
 </template>
@@ -13,7 +13,13 @@
   margin-bottom 40px
   margin-top 40px
 
+  > a
+    overflow: hidden;
+    border-radius: 30px;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0px 0px 15px 0px #ccc;
+
   img
-    max-width 200px
-    min-width 120px
+    width 100px
 </style>

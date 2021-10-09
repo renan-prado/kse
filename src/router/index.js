@@ -22,6 +22,11 @@ const routes = [
     name: 'Campaign',
     component: Campaign,
   },
+  {
+    path: '/campaign/:uuid/:campaign/:url',
+    name: 'Campaign',
+    component: Campaign,
+  },
 ];
 
 const router = new VueRouter({

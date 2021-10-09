@@ -1,8 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
 import User from './User';
 
 class Collaborator extends User {
   constructor({
-    uuid, name, email, password,
+    uuid = uuidv4(), name, email, password,
   }) {
     super({
       uuid,
